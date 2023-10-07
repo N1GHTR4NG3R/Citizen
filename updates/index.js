@@ -1,10 +1,17 @@
+import dotenv from "dotenv";
 import fetch from "node-fetch";
 import fs from "fs";
-import "dotenv/config";
+import path from "path";
 
-// Test URLS
-console.log(process.env.THREAD_URL);
-console.log(process.env.PATCH_URL);
+/**
+ * Polyfill to use __dirname from Path
+ * As this script is using ESM Modules.
+ */
+import { fileURLToPath } from "url";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// Have to resolve Path for .env
+dotenv.config({ path: path.resolve(__dirname, "..", ".env") });
 
 // Declare variable to test differences of slugs.
 let lastSlug;

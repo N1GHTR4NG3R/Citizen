@@ -4,4 +4,4 @@
 #Files
 package-lock.json
 .env
-updates/patchNote.json
+Data/patchNote.json
