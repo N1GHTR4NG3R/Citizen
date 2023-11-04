@@ -1,17 +1,7 @@
-import dotenv from "dotenv";
-import fetch from "node-fetch";
-import fs from "fs";
-import path from "path";
-
-/**
- * Polyfill to use __dirname from Path
- * As this script is using ESM Modules.
- */
-import { fileURLToPath } from "url";
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-// Have to resolve Path for .env
-dotenv.config({ path: path.resolve(__dirname, "..", ".env") });
+const path = require("node:path");
+const dotenv = require("dotenv").config({
+	path: path.resolve(__dirname, "..", ".env"),
+});
 
 // Declare variable to test differences of slugs.
 let lastSlug;
@@ -24,10 +14,15 @@ let firstCat = [];
 let secondCat = [];
 let thirdCat = [];
 let fourthCat = [];
-let lastInd;
-let current;
-let next;
-let last;
+let fifthCat = [];
+let sixCat = [];
+let finArr = [];
+
+// Declare empty variables to use.
+let lastInd, current, next, last;
+
+// Declare empty object for exporting:
+let patchNotes = {};
 
 // Get threads
 const threadUpdater = async () => {
@@ -113,22 +108,42 @@ const threadUpdater = async () => {
 				if (iter === 3) {
 					fourthCat.push({ index: j, text: updInfo[j].text });
 				}
+				if (iter === 4) {
+					fifthCat.push({ index: j, text: updInfo[j].text });
+				}
+				if (iter === 5) {
+					sixCat.push({ index: j, text: updInfo[j].text });
+				}
 			}
-			return { firstCat, secondCat, thirdCat, fourthCat };
+			return { firstCat, secondCat, thirdCat, fourthCat, fifthCat, sixCat };
 		};
 
 		// Loop through each subHeaders array, and get the ranges
 		sortHeaders.forEach((header, index) => {
 			range(header.start, header.end, index);
-			console.log(header, index);
 		});
 
-		console.log({ firstCat, secondCat, thirdCat, fourthCat });
-	}
-	getPostIfNew(slug);
-};
+		// Build final array, by adding category text for easier sorting.
+		firstCat.unshift({ index: 1, text: "Cat 1:" });
+		secondCat.unshift({ index: 1, text: "Cat 2:" });
+		thirdCat.unshift({ index: 1, text: "Cat 3:" });
+		fourthCat.unshift({ index: 1, text: "Cat 4:" });
+		fifthCat.unshift({ index: 1, text: "Cat 5:" });
+		sixCat.unshift({ index: 1, text: "Cat 6:" });
 
+		// Push all categories into one array
+		finArr.push(firstCat, secondCat, thirdCat, fourthCat, fifthCat, sixCat);
+
+		return finArr;
+	}
+	await getPostIfNew(slug);
+	return finArr;
+};
 // Set to run once every 2m 30s, Should run 576 times every 24hrs to reduce load, impact and avoid any performance issues to RSI's website.
 // Based off the unofficial API, Which I presume gets the data the same way,
 // there rate limits are capped at 1000 per 24hrs, so this should allow for server restarts etc...
-setInterval(threadUpdater, 150000);
+setInterval(async () => {
+	patchNotes.update = await threadUpdater();
+}, 150000);
+
+module.exports = patchNotes;
