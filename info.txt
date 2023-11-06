@@ -1,7 +1,7 @@
 ==== Star Citizen Guild Bot ====
 
 Features:   
-    - Dedicated organistaion trusted members
+    - Dedicated organisation trusted members
         - Add specified users to DB
     - Credit Splitter
         - Add usernames, Add amount of money made, Divide money made by amount of users - Output embed with the value of money to be sent to each person.
@@ -12,5 +12,5 @@ Features:
     - Star Citizen API Integration
         - users
         - Orgs
-        - updates - Through Postman API
+        - updates for PTU
         - ships
