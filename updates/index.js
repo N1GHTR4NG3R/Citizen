@@ -10,6 +10,7 @@ let lastSlug;
 let updInfo = [];
 let headers = [];
 let sortHeaders = [];
+let infoArr = [];
 let firstCat = [];
 let secondCat = [];
 let thirdCat = [];
@@ -44,6 +45,9 @@ const threadUpdater = async () => {
 		if (value === lastSlug) return;
 
 		lastSlug = value;
+
+		// Create URL for posting...
+		const createUrl = `https://robertsspaceindustries.com/spectrum/community/SC/forum/190048/thread/${value}`;
 
 		const response = await fetch(process.env.PATCH_URL, {
 			method: "POST",
@@ -124,16 +128,28 @@ const threadUpdater = async () => {
 		});
 
 		// Build final array, by adding category text for easier sorting.
-		firstCat.unshift({ index: 1, text: "Cat 1:" });
-		secondCat.unshift({ index: 1, text: "Cat 2:" });
-		thirdCat.unshift({ index: 1, text: "Cat 3:" });
-		fourthCat.unshift({ index: 1, text: "Cat 4:" });
-		fifthCat.unshift({ index: 1, text: "Cat 5:" });
-		sixCat.unshift({ index: 1, text: "Cat 6:" });
+		infoArr.unshift(
+			{ index: 0, text: createUrl },
+			{ index: 1, text: notes.data.member.displayname },
+			{ index: 2, text: notes.data.member.avatar }
+		);
+		firstCat.unshift({ index: 0, text: "Cat 1:" });
+		secondCat.unshift({ index: 0, text: "Cat 2:" });
+		thirdCat.unshift({ index: 0, text: "Cat 3:" });
+		fourthCat.unshift({ index: 0, text: "Cat 4:" });
+		fifthCat.unshift({ index: 0, text: "Cat 5:" });
+		sixCat.unshift({ index: 0, text: "Cat 6:" });
 
 		// Push all categories into one array
-		finArr.push(firstCat, secondCat, thirdCat, fourthCat, fifthCat, sixCat);
-
+		finArr.push(
+			infoArr,
+			firstCat,
+			secondCat,
+			thirdCat,
+			fourthCat,
+			fifthCat,
+			sixCat
+		);
 		return finArr;
 	}
 	await getPostIfNew(slug);
