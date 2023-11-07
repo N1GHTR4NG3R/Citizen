@@ -7,10 +7,7 @@ Please take a look at [the current plans](https://github.com/N1GHTR4NG3R/Citizen
 
 == LICENSE ==
 
-I don't really understand the licenses, I do this for fun, so this is my "License"
-You are free to contribute, use and modify the code found here, as you see fit, However you must link back to this repository for credit.
-I do not give permission for you to use the code found here for monetisation purposes, If you wish to do this, then contact me via email at:
-ballard.programmer@gmail.com
+For current Licensing please look [here](https://github.com/N1GHTR4NG3R/Citizen/blob/main/LICENSE.txt)
 
 === Disclaimer ===
 
